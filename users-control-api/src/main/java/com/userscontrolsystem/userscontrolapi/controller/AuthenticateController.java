@@ -45,7 +45,9 @@ public class AuthenticateController {
 			String jwt = jwtUtil.generateToken(user.getLogin());
 			redis.opsForValue().set(jwt, user.getLogin());
 			AuthenticateResponse response = new AuthenticateResponse();
-			response.setJwt(jwt);
+			response.setLogin(request.getLogin());
+			response.setIsAdmin(user.getIsAdmin());
+			response.setToken(jwt);
 			return ResponseEntity.ok(response);
 		} catch (BadCredentialsException e) {
 			e.printStackTrace();

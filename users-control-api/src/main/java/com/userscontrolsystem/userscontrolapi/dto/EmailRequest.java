@@ -17,6 +17,6 @@ public class EmailRequest {
 	private String title;
 	
 	@NotBlank
-	private String message;
+	private String body;
 
 }

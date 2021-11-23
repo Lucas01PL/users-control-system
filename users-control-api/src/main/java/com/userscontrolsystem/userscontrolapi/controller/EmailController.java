@@ -19,8 +19,8 @@ import com.userscontrolsystem.userscontrolapi.dto.EmailRequest;
 @RequestMapping("/email")
 public class EmailController {
 	
-//	@Autowired
-//	RabbitTemplate rabbitTemplate;
+	@Autowired
+	RabbitTemplate rabbitTemplate;
 	
 	@PostMapping
 	public ResponseEntity<?> send(@Valid @RequestBody EmailRequest request) {
@@ -35,7 +35,7 @@ public class EmailController {
 		
 		System.out.println("Sending message...");
 		System.out.println(json);
-//		rabbitTemplate.convertAndSend(RabbitMQConfiguration.EXCHANGE_NAME, "", json);
+		rabbitTemplate.convertAndSend(RabbitMQConfiguration.EXCHANGE_NAME, "", json);
 		System.out.println("Sending message finished.");
 		return ResponseEntity.ok().build();
 	}

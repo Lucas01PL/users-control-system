@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class AuthenticateResponse {
 	
-	private String jwt;
+	private String login;
+	private Boolean isAdmin;
+	private String token;
 
 }
