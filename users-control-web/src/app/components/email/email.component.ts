@@ -15,10 +15,10 @@ export class EmailComponent implements OnInit {
   email!: Email;
   errorMessage = '';
   successMessage = '';
-  CHAVE_USER = "TOKEN_USER";
+  SESSION_USER = "SESSION_USER";
 
   ngOnInit(): void {
-    if (localStorage.getItem(this.CHAVE_USER) != null) {
+    if (localStorage.getItem(this.SESSION_USER) != null) {
       this.email = new Email();
     } else {
       this.router.navigate(["login"]);
@@ -41,6 +41,11 @@ export class EmailComponent implements OnInit {
     this.email = new Email();
     this.resetSuccessMessage();
     this.resetErrorMessage();
+  }
+
+  public logout() {
+    localStorage.removeItem(this.SESSION_USER);
+    this.router.navigate(["login"]);
   }
 
   private setSuccessMessage(message: string) {

@@ -9,7 +9,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  CHAVE_USER = "TOKEN_USER";
+  SESSION_USER = "SESSION_USER";
 
   findAll() {
     return this.http.get<User[]>(`http://localhost:8080/users`, { headers: this.getHeaders(), observe: 'response' });
@@ -31,8 +31,21 @@ export class UserService {
     return this.http.delete<any>(`http://localhost:8080/users/${id}`, { headers: this.getHeaders(), observe: 'response' });
   }
 
+  changePassword(id: number, newPassword: string) {
+    return this.http.post<any>(`http://localhost:8080/users/${id}/password/reset`, {"newPassword": newPassword}, { headers: this.getHeaders(), observe: 'response' });
+  }
+
   login(user: User) {
     return this.http.post<any>(`http://localhost:8080/authenticate/login`, {"login": user.login, "password": user.password}, { observe: 'response' });
+  }
+
+  isCurrentUserAdmin() {
+    if (localStorage.getItem(this.SESSION_USER) != null) {
+      console.log(JSON.parse(localStorage.getItem(this.SESSION_USER) || "{}").isAdmin);
+      return JSON.parse(localStorage.getItem(this.SESSION_USER) || "{}").isAdmin;
+    }
+
+    return false;
   }
 
   private getHeaders() {
@@ -40,7 +53,7 @@ export class UserService {
   }
 
   private getJwt() {
-    return localStorage.getItem(this.CHAVE_USER);
+    return JSON.parse(localStorage.getItem(this.SESSION_USER) || "{}").token;
   }
 }
 

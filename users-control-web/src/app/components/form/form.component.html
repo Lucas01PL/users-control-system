@@ -69,8 +69,24 @@
     alt="Angular Logo"
     src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg=="
   />
-  <span>Welcome</span>
+  <div class="col-1">
+    <span>Welcome</span>
+  </div>
+  <a class="col-2" href="form" style="color: #fff; text-decoration: none;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-person" viewBox="0 0 16 16">
+      <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/>
+      <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+    </svg>
+    Controle de Usuários
+  </a>
+  <a class="col-2" href="email" style="color: #fff; text-decoration: none;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+      <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+    </svg>
+    Enviar Email
+  </a>
     <div class="spacer"></div>
+    <!--
     <a aria-label="Angular on twitter" target="_blank" rel="noopener" href="https://twitter.com/angular" title="Twitter">
       <svg id="twitter-logo" height="24" data-name="Logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
         <rect width="400" height="400" fill="none"/>
@@ -83,72 +99,72 @@
         <path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/>
       </svg>
     </a>
-    <button (click)=logout() *ngIf="!isFormShow">
-      <p>Sair</p>
-    </button>
+    -->
+    <label (click)=logout() *ngIf="!isFormShow" style="cursor: pointer; margin-right: 15px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+      </svg>
+      Sair
+    </label>
 </div>
 
 <div class="container mt-5">
   <h2>Controle de Usuário</h2>
-  <div class="row mt-5" *ngIf="isFormShow">
-    <div class="col-1 offset-11" style="right: 0;">
-      <button class="btn btn-light" (click)=hideForm() *ngIf="isFormShow">
-        <p><span aria-hidden="true">&times;</span></p>
+  <div id="messages">
+    <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="successMessage != ''">
+      {{successMessage}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="col">
-      <div id="messages">
-
-        <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="successMessage != ''">
-          {{successMessage}}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="errorMessage != ''">
-          <div  [innerHTML]="errorMessage"></div>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      </div>
-      <form >
-        <input type="hidden" [(ngModel)]="user.id" name="id">
-        <div class="form-group">
-          <label>Nome</label>
-          <input type="text" class="form-control" [(ngModel)]="user.name" name="name" placeholder="Informe o nome do usuário" required>
-        </div>
-        <div class="form-group">
-          <label>Login</label>
-          <input type="text" class="form-control" [(ngModel)]="user.login" name="login" placeholder="Informe o nome do usuário">
-        </div>
-        <div class="form-group">
-          <label>Senha</label>
-          <input type="password" class="form-control" [(ngModel)]="user.password" name="password" placeholder="Informe o nome do usuário">
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" class="form-control" [(ngModel)]="user.email" name="email" placeholder="Informe o nome do usuário">
-        </div>
-        <div class="form-group form-check">
-          <input type="checkbox" class="form-check-input" [(ngModel)]="user.isAdmin" name="isAdmin" [checked]="user.isAdmin">
-          <label class="form-check-label">Administrador</label>
-        </div>
-        <button type="submit" class="btn btn-primary" (click)="user.id !== 4 ? add() : edit()">Salvar</button>
-        <button type="submit" class="btn btn-default ml-2" (click)="hideForm()">Cancelar</button>
-      </form>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="errorMessage != ''">
+      <div  [innerHTML]="errorMessage"></div>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
   </div>
+  <div class="row mt-5" *ngIf="isFormShow">
+    <div class="col">
+      <div *ngIf="!isChangePassword">
+        <form >
+          <input type="hidden" [(ngModel)]="user.id" name="id">
+          <div class="form-group">
+            <label>Nome</label>
+            <input type="text" class="form-control" [(ngModel)]="user.name" name="name" placeholder="Informe o nome do usuário" required>
+          </div>
+          <div class="form-group">
+            <label>Login</label>
+            <input type="text" class="form-control" [(ngModel)]="user.login" name="login" placeholder="Informe o nome do usuário">
+          </div>
+          <div class="form-group" *ngIf="user.id == null">
+            <label>Senha</label>
+            <input type="password" class="form-control" [(ngModel)]="user.password" name="password" placeholder="Informe o nome do usuário">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-control" [(ngModel)]="user.email" name="email" placeholder="Informe o nome do usuário">
+          </div>
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" [(ngModel)]="user.isAdmin" name="isAdmin" [checked]="user.isAdmin">
+            <label class="form-check-label">Administrador (*Atualização do perfil válido a partir do proximo login.)</label>
+          </div>
+          <button type="submit" class="btn btn-primary" (click)="user.id == null ? add() : edit()">Salvar</button>
+          <button type="submit" class="btn btn-default ml-2" (click)="hideForm()">Cancelar</button>
+        </form>
+      </div>     
+    </div>
+  </div>  
   <br>
   <div class="form-group">
     <div class="row">
       <div class="col-4">
         <input type="text" class="form-control" [(ngModel)]="fieldFilter" name="fieldFilter" placeholder="Informe o nome do usuário.">
       </div>
-      
-        <button class="btn btn-success ml-2" (click)=showForm() *ngIf="!isFormShow">
-          <p>Novo Usuário</p>
-        </button>
+      <button class="btn btn-success ml-2" (click)=showForm() *ngIf="!isFormShow">
+        <p>Novo Usuário</p>
+      </button>
     </div>
   </div>
   <div class="row">
@@ -173,10 +189,25 @@
           <td>{{u.isAdmin? "Sim" : "Não"}}</td>
           <td>
             <button type="button" class="btn btn-primary" (click)="prepareEdit(u.id)">Editar</button>&nbsp;
+            <button type="button" class="btn btn-info" (click)="prepareChangePassword(u.id, u.name)" *ngIf="isCurrentUserAdmin">Alterar Senha</button>&nbsp;
             <button type="button" class="btn btn-danger" (click)="delete(u.id)">Excluir</button>
           </td>
         </tr>
     </table>
+  </div>
+  <div *ngIf="isChangePassword">
+    <form>
+      <input type="hidden" [(ngModel)]="user.id" name="id">
+      <div class="row">
+        <label><b>Login:</b></label>&nbsp;
+        <label>{{user.login}}</label>
+        <div class="col-4">
+          <input type="password" class="form-control" [(ngModel)]="user.password" name="password" placeholder="Informe a nova senha.">
+        </div>
+        <button type="submit" class="btn btn-info ml-2" (click)="changePassword()">Salvar</button>
+        <button type="submit" class="btn btn-default ml-2" (click)="hideForm()">Cancelar</button>
+      </div>
+    </form>
   </div>
 </div>
 <router-outlet></router-outlet>

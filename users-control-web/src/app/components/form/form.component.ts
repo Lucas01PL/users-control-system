@@ -19,13 +19,16 @@ export class FormComponent implements OnInit {
   errorMessage = '';
   successMessage = '';
   isFormShow = false;
-  CHAVE_USER = "TOKEN_USER";
+  SESSION_USER = "SESSION_USER";
   fieldFilter = '';
+  isCurrentUserAdmin = false;
+  isChangePassword = false;
 
   ngOnInit(): void {
-    if (localStorage.getItem(this.CHAVE_USER) != null) {
+    if (localStorage.getItem(this.SESSION_USER) != null) {
       this.user = new User();
       this.loadUsers();
+      this.isCurrentUserAdmin = this.userService.isCurrentUserAdmin();
     } else {
       this.router.navigate(["login"]);
     }
@@ -57,6 +60,8 @@ export class FormComponent implements OnInit {
     this.userService.findById(id)
       .subscribe(response => {
         this.user = response.body!;
+        this.showForm();
+        this.isChangePassword = false;
       });
   }
 
@@ -67,6 +72,7 @@ export class FormComponent implements OnInit {
         console.log(response.status);
           this.setSuccessMessage("Usuário atualizado com sucesso!");
           this.loadUsers();
+          this.hideForm();
       }, (response) => {
         if (response.status == 400) {
           var msg = this.formatErrorMessage(response);
@@ -92,6 +98,29 @@ export class FormComponent implements OnInit {
       });
   }
 
+  public prepareChangePassword(id: number, login: string) {
+    this.user.id = id;
+    this.user.login = login;
+    this.isChangePassword = true;
+  }
+
+  public changePassword() {
+
+    this.userService.changePassword(this.user.id, this.user.password||"")
+      .subscribe(response => {
+        console.log(response.status);
+          this.setSuccessMessage("Usuário atualizado com sucesso!");
+          this.loadUsers();
+          this.hideForm();
+      }, (response) => {
+        if (response.status == 400 || response.status == 403) {
+          this.setErrorMessage(this.formatErrorMessage(response));
+       } else
+        this.setErrorMessage("Ocorreu um erro ao atualizar dados do usuário. Procure o administrador do sistema.");
+      });
+
+  }
+
   public showForm() {
     this.isFormShow = true;
   }
@@ -99,18 +128,20 @@ export class FormComponent implements OnInit {
   public hideForm() {
     this.isFormShow = false;
     this.resetForm();
+    this.isChangePassword = false;
   }
 
   public logout() {
-    localStorage.removeItem(this.CHAVE_USER);
+    localStorage.removeItem(this.SESSION_USER);
     this.router.navigate(["login"]);
   }
 
   private resetForm() {
     this.user = new User();
-    this.resetSuccessMessage();
-    this.resetErrorMessage();
+//    this.resetSuccessMessage();
+//    this.resetErrorMessage();
   }
+
 
   private setSuccessMessage(message: string) {
     this.successMessage = message;

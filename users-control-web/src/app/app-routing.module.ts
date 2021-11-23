@@ -7,7 +7,7 @@ import { EmailComponent } from './components/email/email.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'form', component: FormComponent },
-  { path: 'message', component: EmailComponent },
+  { path: 'email', component: EmailComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full'}];
 
 @NgModule({

@@ -13,13 +13,13 @@ export class LoginComponent implements OnInit {
   user!: User;
   errorMessage = '';
   jwt = '';
-  CHAVE_USER = "TOKEN_USER";
+  SESSION_USER = "SESSION_USER";
 
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.user = new User();
-    if (localStorage.getItem(this.CHAVE_USER) != null)
+    if (localStorage.getItem(this.SESSION_USER) != null)
       this.router.navigate(["form"]);
     else
       this.router.navigate(["login"]);
@@ -27,20 +27,19 @@ export class LoginComponent implements OnInit {
 
   public login() {
     this.userService.login(this.user).subscribe(response => {
-        this.jwt = response.body.jwt;
-        this.createSession(response.body.jwt);
+        this.createSession(response.body);
         this.router.navigate(["form"]);
     }, (response) => {
-        this.setErrorMessage(response);
+        this.setErrorMessage(this.formatErrorMessage(response));
     });
   }
 
-  private createSession(jwt: any) {
-    localStorage.setItem(this.CHAVE_USER, jwt);
+  private createSession(dataUser: any) {
+    localStorage.setItem(this.SESSION_USER, JSON.stringify(dataUser));
   }
 
   private destroySession(jwt: any) {
-    localStorage.removeItem(this.CHAVE_USER);
+    localStorage.removeItem(this.SESSION_USER);
   }
 
   private setErrorMessage(message: string) {
@@ -52,19 +51,22 @@ export class LoginComponent implements OnInit {
   }
 
   private formatErrorMessage(response: any) {
-    console.log(response.error);
-    if (response.error.fields == null) {
-      return this.errorMessage = response.error.title;
+    if (response.status == 401) {
+      return "Falha na autenticação, usuário ou senha inválidos.";
     } else {
-      var message = '';
-      message = response.error.title;
-      message += " Campos:";
-      message += "<ul>";
-      response.error.fields.forEach((element: { nome: any; mensagem: any; }) => {
-        message += `<li>${element.nome}</li>`;
-      });
-      message += "</ul>"
-      return message;
+      if (response.error.fields == null) {
+        return this.errorMessage = response.error.title;
+      } else {
+        var message = '';
+        message = response.error.title;
+        message += " Campos:";
+        message += "<ul>";
+        response.error.fields.forEach((element: { name: any; message: any; }) => {
+          message += `<li>${element.name}</li>`;
+        });
+        message += "</ul>"
+        return message;
+      }
     }
 
   }
