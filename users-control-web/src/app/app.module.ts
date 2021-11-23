@@ -8,12 +8,14 @@ import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
 import { FormComponent } from './components/form/form.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { EmailComponent } from './components/email/email.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    FormComponent
+    FormComponent,
+    EmailComponent
   ],
   imports: [
     BrowserModule,
