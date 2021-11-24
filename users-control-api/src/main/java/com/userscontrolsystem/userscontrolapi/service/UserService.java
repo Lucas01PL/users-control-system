@@ -81,7 +81,7 @@ public class UserService {
 	}
 
 	public String encodePassword(String password) {
-		//return passwordEncoder.encode(password);
+		//TODO Implementar encode password.
 		return password;
 	}
 	

@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.userscontrolsystem.userscontrolapi.service.MyUserDetailsService;
-import com.userscontrolsystem.userscontrolapi.service.UserService;
 import com.userscontrolsystem.userscontrolapi.util.JwtUtil;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -36,9 +35,6 @@ public class JwtFilter extends OncePerRequestFilter {
 	
 	@Autowired
     private RedisTemplate<String, String> redis;
-	
-	@Autowired
-	private UserService userService;
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -61,22 +57,18 @@ public class JwtFilter extends OncePerRequestFilter {
 			}
 			
 		} else {
-			logger.warn("JWT Token does not begin with Bearer String");
+			logger.warn("JWT Token not begin with Bearer String");
 		}
 		
         if (login != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             UserDetails userDetails = myUserDetailsService.loadUserByUsername(login);
         	
-//        	user = userService.findByLogin(login);
-            
             if (jwtUtil.validateToken(token)) {
             	
             	String loginFromRedis = this.redis.opsForValue().get(token);
-//                if (loginFromRedis != null && user.getLogin().equals(loginFromRedis)) {
                 if (loginFromRedis != null && userDetails.getUsername().equals(loginFromRedis)) {
 	                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-//                	UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user, null, user.getRoles());
 	                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 	                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }

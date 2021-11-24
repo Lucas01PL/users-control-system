@@ -5,30 +5,53 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.ExchangeBuilder;
 import org.springframework.amqp.core.Queue;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.rabbitmq.client.ConnectionFactory;
 
 @Configuration
 public class RabbitMQConfiguration {
 	
-	public static String EXCHANGE_NAME = "exchange.email.users.control.system";
+	@Value("${rabbitmq.email.exchange}")
+	private static String exchangeName;
 	
-	public static String QUEUE_NAME = "queue.email.users.control.system";
+	@Value("${rabbitmq.email.queue}")
+	public String queueName;
+	
+	@Value("${rabbitmq.email.host}")
+	private String host;
+	
+	@Value("${rabbitmq.email.port}")
+	public Integer port;
+	
+	@Bean
+	public ConnectionFactory connectionFactory() {
+		ConnectionFactory connectionFactory = new ConnectionFactory();
+		connectionFactory.setHost(host);
+		connectionFactory.setPort(port);
+		return connectionFactory;
+	}
 
     @Bean
     public DirectExchange exchange() {
-        return ExchangeBuilder.directExchange(EXCHANGE_NAME)
+        return ExchangeBuilder.directExchange(exchangeName)
                 .durable(true)
                 .build();
     }
     
     @Bean
     public Queue queue() {
-       return new Queue(QUEUE_NAME, false);
+       return new Queue(queueName, false);
     }
     
     @Bean
 	Binding binding(Queue queue, DirectExchange exchange) {
 		return BindingBuilder.bind(queue).to(exchange).with("");
 	}
+    
+    public static String getExchangeName() {
+    	return exchangeName;
+    }
 }

@@ -15,6 +15,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.userscontrolsystem.userscontrolapi.config.RabbitMQConfiguration;
 import com.userscontrolsystem.userscontrolapi.dto.EmailRequest;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/email")
 public class EmailController {
@@ -33,10 +36,9 @@ public class EmailController {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Sending message...");
-		System.out.println(json);
-		rabbitTemplate.convertAndSend(RabbitMQConfiguration.EXCHANGE_NAME, "", json);
-		System.out.println("Sending message finished.");
+		log.info("Sending message...");
+		rabbitTemplate.convertAndSend(RabbitMQConfiguration.getExchangeName(), "", json);
+		log.info("Sending message finished.");
 		return ResponseEntity.ok().build();
 	}
 	

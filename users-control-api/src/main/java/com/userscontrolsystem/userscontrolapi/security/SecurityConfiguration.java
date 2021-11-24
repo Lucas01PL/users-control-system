@@ -32,8 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	
-	private String[] WHITELIST_URL = {"/users/admin",
-									  "/authenticate/*"};
+	private String[] WHITELIST_URL = {"/authenticate/*"};
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -70,6 +69,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 	
 	}
+	
+	//TODO Substituir PasswordEncoder por BCryptPasswordEncoder
 	
 	@Bean
 	public PasswordEncoder getPasswordEncoder() {

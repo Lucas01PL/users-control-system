@@ -39,6 +39,7 @@ public class UserController {
 	@Autowired
 	private JwtUtil jwtUtil;
 	
+	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> findAll() {
 		return ResponseEntity.ok(userService.findAll().stream()
