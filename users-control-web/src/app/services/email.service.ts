@@ -9,11 +9,11 @@ export class EmailService {
 
   constructor(private http: HttpClient) { }
 
-  CHAVE_USER = "TOKEN_USER";
+  SESSION_USER = "SESSION_USER";
 
-  public send(message: Email) {
-      console.log(message);
-      return this.http.post<any>(`http://localhost:8080/email`, message, { headers: this.getHeaders(), observe: 'response' });
+  public send(email: Email) {
+      email.sender = this.getEmailUserFromSession();
+      return this.http.post<any>(`http://localhost:8080/email`, email, { headers: this.getHeaders(), observe: 'response' });
   }
 
   private getHeaders() {
@@ -21,7 +21,12 @@ export class EmailService {
   }
 
   private getJwt() {
-    return localStorage.getItem(this.CHAVE_USER);
+    return JSON.parse(localStorage.getItem(this.SESSION_USER) || "{}").token;
+  }
+
+  private getEmailUserFromSession() {
+    console.log(JSON.parse(localStorage.getItem(this.SESSION_USER) || "{}"));
+    return JSON.parse(localStorage.getItem(this.SESSION_USER) || "{}").email;
   }
 
 }
