@@ -32,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	
-	private String[] WHITELIST_URL = {"/hello/",
+	private String[] WHITELIST_URL = {"/users/admin",
 									  "/authenticate/*"};
 	
 	@Override

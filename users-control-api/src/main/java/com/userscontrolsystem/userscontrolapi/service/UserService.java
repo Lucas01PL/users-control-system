@@ -84,5 +84,9 @@ public class UserService {
 		//return passwordEncoder.encode(password);
 		return password;
 	}
+	
+	public List<User> findByIsAdmin(Boolean isAdmin) {
+		return userRepository.findByIsAdmin(isAdmin);
+	}
 		
 }

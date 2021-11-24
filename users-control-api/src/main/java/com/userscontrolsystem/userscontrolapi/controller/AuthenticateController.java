@@ -46,6 +46,7 @@ public class AuthenticateController {
 			redis.opsForValue().set(jwt, user.getLogin());
 			AuthenticateResponse response = new AuthenticateResponse();
 			response.setLogin(request.getLogin());
+			response.setEmail(user.getEmail());
 			response.setIsAdmin(user.getIsAdmin());
 			response.setToken(jwt);
 			return ResponseEntity.ok(response);
