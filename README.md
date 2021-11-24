@@ -18,7 +18,7 @@ Below is the docker images list utilitized.
  - confluentinc/cp-kafka:latest
  - confluentinc/cp-zookeeper:latest
 
-The applications load the information of configuration from a Configuration Server, you can modify to the server of your preferences or utilit the application users-control-config-server as your Configuration Server ([more details](/users-control-config-server)). Case wish use a server of your preferences, modify application.properties file exists in users-control-api and users-control-message with correct informations. This step must is the first.
+The applications load the information of configuration from a Configuration Server, you can modify to the server of your preferences or utilit the application users-control-config-server as your Configuration Server ([more details](#users-control-config-server)). Case wish use a server of your preferences, modify application.properties file exists in users-control-api and users-control-message with correct informations. This step must is the first.
 
 
 ## users-control-api
