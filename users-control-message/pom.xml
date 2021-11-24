@@ -11,7 +11,7 @@
 	<groupId>com.userscontrolsystem</groupId>
 	<artifactId>users-control-message</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>users-control-message</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -55,6 +55,13 @@
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config -->
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-starter-config</artifactId>
+		    <version>3.0.4</version>
 		</dependency>
 	</dependencies>
 
