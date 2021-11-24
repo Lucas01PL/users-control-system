@@ -50,7 +50,7 @@ After clone the projeto, inside diretory users-control-web execute the comands:
 `$ ng server `
 
 
-[## users-control-config-server]
+## users-control-config-server
 
 After clone the projeto, inside diretory users-control-config-server execute the comands:
 
