@@ -18,7 +18,7 @@ Below is the docker images list utilitized.
  - confluentinc/cp-kafka:latest
  - confluentinc/cp-zookeeper:latest
 
-The applications load the information of configuration from a Configuration Server, you can modify to the server of your preferences or utilit the application users-control-config-server as your Configuration Server ([more details](#users-control-config-server)). Case wish use a server of your preferences, modify application.properties file exists in users-control-api and users-control-message with correct informations. This step must is the first.
+The applications load the information of configuration from a Configuration Server, you can modify to the server of your preferences or utilit the application users-control-config-server as your Configuration Server ([more details](#users-control-config-server)). Case you wish use a server of your preferences, modify application.properties file exists in users-control-api and users-control-message with correct informations. This step must is the first.
 
 
 ## users-control-api
@@ -30,6 +30,9 @@ After clone the projeto, inside diretory users-control-api execute the comands:
 Next
 
 `$ java -jar target/users-control-api-0.0.1-SNAPSHOT.jar `
+
+After the running application is possible to access your endpoints through the url "/swagger-ui.html".
+In the endpoint "/users/default", method POST, will create an administrator user default, login is "admin" and password is "admin". With that user is possible authenticate e receive a token valid or acess the application users-control-web.
 
 
 ## users-control-message
