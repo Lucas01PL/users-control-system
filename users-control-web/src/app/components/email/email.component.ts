@@ -26,10 +26,13 @@ export class EmailComponent implements OnInit {
   }
 
   public send() {
+    console.log("ok");
+    console.log(this.email);
     this.emailService.send(this.email).subscribe(response => {
       this.setSuccessMessage("Mensagem enviada com sucesso!");
       this.email = new Email();
     }, (response) => {
+      this.email = new Email();
       if (response.status == 400) 
         this.setErrorMessage(this.formatErrorMessage(response));
       else

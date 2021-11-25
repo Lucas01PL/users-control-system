@@ -27,6 +27,7 @@ export class FormComponent implements OnInit {
   ngOnInit(): void {
     if (localStorage.getItem(this.SESSION_USER) != null) {
       this.user = new User();
+      this.user.isAdmin = false;
       this.loadUsers();
       this.isCurrentUserAdmin = this.userService.isCurrentUserAdmin();
     } else {
@@ -47,6 +48,7 @@ export class FormComponent implements OnInit {
       .subscribe(response => {
           this.setSuccessMessage("Usuário cadastrado com sucesso!");
           this.loadUsers();
+          this.hideForm();
       }, (response) => {
         if (response.status == 400) 
           this.setErrorMessage(this.formatErrorMessage(response));
@@ -109,7 +111,7 @@ export class FormComponent implements OnInit {
     this.userService.changePassword(this.user.id, this.user.password||"")
       .subscribe(response => {
         console.log(response.status);
-          this.setSuccessMessage("Usuário atualizado com sucesso!");
+          this.setSuccessMessage("Senha do Usuário atualizada com sucesso!");
           this.loadUsers();
           this.hideForm();
       }, (response) => {
@@ -138,12 +140,11 @@ export class FormComponent implements OnInit {
 
   private resetForm() {
     this.user = new User();
-//    this.resetSuccessMessage();
-//    this.resetErrorMessage();
   }
 
 
   private setSuccessMessage(message: string) {
+    this.resetErrorMessage();
     this.successMessage = message;
   }
 
@@ -152,6 +153,7 @@ export class FormComponent implements OnInit {
   }
 
   private setErrorMessage(message: string) {
+    this.resetSuccessMessage();
     this.errorMessage = message;
   }
 
