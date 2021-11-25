@@ -15,7 +15,7 @@ import com.rabbitmq.client.ConnectionFactory;
 public class RabbitMQConfiguration {
 	
 	@Value("${rabbitmq.email.exchange}")
-	private static String exchangeName;
+	public String exchangeName;
 	
 	@Value("${rabbitmq.email.queue}")
 	public String queueName;
@@ -51,7 +51,8 @@ public class RabbitMQConfiguration {
 		return BindingBuilder.bind(queue).to(exchange).with("");
 	}
     
-    public static String getExchangeName() {
+    public String getExchangeName(){
     	return exchangeName;
     }
+    
 }

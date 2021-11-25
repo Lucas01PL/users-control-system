@@ -30,6 +30,9 @@ public class EmailController {
 	@Autowired
 	RabbitTemplate rabbitTemplate;
 	
+	@Autowired
+	RabbitMQConfiguration rabbitMQConfiguration;
+	
 	@ApiOperation(value = "Endpoint to Admin User send email to the User")
 	@ApiResponses(value = {
 	     @ApiResponse(code = 200, message = "Ok"),
@@ -54,7 +57,7 @@ public class EmailController {
 		}
 		
 		log.info("Sending message...");
-		rabbitTemplate.convertAndSend(RabbitMQConfiguration.getExchangeName(), "", json);
+		rabbitTemplate.convertAndSend(rabbitMQConfiguration.getExchangeName(), "", json);
 		log.info("Sending message finished.");
 		return ResponseEntity.ok().build();
 	}
