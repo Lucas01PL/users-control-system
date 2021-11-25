@@ -16,7 +16,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import com.userscontrolsystem.userscontrolapi.config.JwtAuthenticationEntryPoint;
 import com.userscontrolsystem.userscontrolapi.filter.JwtFilter;
 import com.userscontrolsystem.userscontrolapi.service.MyUserDetailsService;
 

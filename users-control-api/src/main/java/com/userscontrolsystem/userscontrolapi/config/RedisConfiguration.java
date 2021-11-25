@@ -13,7 +13,7 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 @Configuration
-public class RedisProperties {
+public class RedisConfiguration {
 
 	@Value("${redis.host}")
 	private String host;
