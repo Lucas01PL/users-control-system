@@ -20,6 +20,8 @@ export class UserService {
   }
 
   add(user: User) {
+    if (user.isAdmin == null) 
+      user.isAdmin = false; 
     return this.http.post<any>(`http://localhost:8080/users`, user, { headers: this.getHeaders(), observe: 'response' });
   }
 

@@ -27,7 +27,6 @@ export class FormComponent implements OnInit {
   ngOnInit(): void {
     if (localStorage.getItem(this.SESSION_USER) != null) {
       this.user = new User();
-      this.user.isAdmin = false;
       this.loadUsers();
       this.isCurrentUserAdmin = this.userService.isCurrentUserAdmin();
     } else {
