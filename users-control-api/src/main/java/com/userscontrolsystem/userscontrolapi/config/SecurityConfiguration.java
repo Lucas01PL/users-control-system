@@ -1,4 +1,4 @@
-package com.userscontrolsystem.userscontrolapi.security;
+package com.userscontrolsystem.userscontrolapi.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -32,7 +33,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	
-	private String[] WHITELIST_URL = {"/authenticate/*"};
+	private String[] WHITELIST_URL = {"/authenticate/*",
+										"/users/default",
+										"/v2/api-docs/**",
+										"/swagger.json",
+										"/swagger-ui.html/",
+										"/swagger-resources/**",
+									    "/webjars/**"};
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -53,15 +60,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   			.addHeaderWriter(new StaticHeadersWriter("Access-Control-Expose-Headers", "Authorization"))
   			.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Credentials", "true"))
   			.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Headers", "Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization"))
-			.and()
-  			.httpBasic()
-			.and()
-			.headers().frameOptions().disable()
-			.and()
+  			.and()
 			.authorizeRequests()
 			.antMatchers(WHITELIST_URL).permitAll()
 			.anyRequest()
 			.authenticated()
+  			.and()
+  			.httpBasic().disable()
+			.headers().frameOptions().disable()
 			.and()
 			.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -80,6 +86,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Bean
 	public AuthenticationManager getAuthenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
+	}
+	
+	@Override
+	public void configure(WebSecurity web) throws Exception {    
+	    web.ignoring().antMatchers("/v2/api-docs/**");
+	    web.ignoring().antMatchers("/swagger.json");
+	    web.ignoring().antMatchers("/swagger-ui.html");
+	    web.ignoring().antMatchers("/swagger-resources/**");
+	    web.ignoring().antMatchers("/webjars/**");
 	}
 	
 }

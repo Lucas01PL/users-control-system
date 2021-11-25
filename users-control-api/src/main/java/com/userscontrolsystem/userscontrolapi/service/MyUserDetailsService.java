@@ -1,5 +1,7 @@
 package com.userscontrolsystem.userscontrolapi.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,7 +23,7 @@ public class MyUserDetailsService implements UserDetailsService{
 		if (user == null)
             throw new UsernameNotFoundException("No user found with login: " + login);
 
-		return new org.springframework.security.core.userdetails.User(user.getLogin(), userService.encodePassword(user.getPassword()), user.getRoles());
+		return new org.springframework.security.core.userdetails.User(user.getLogin(), userService.encodePassword(user.getPassword()), List.of());
 	}
 	
 	

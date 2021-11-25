@@ -1,5 +1,6 @@
 package com.userscontrolsystem.userscontrolapi.controller;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,12 @@ import com.userscontrolsystem.userscontrolapi.model.User;
 import com.userscontrolsystem.userscontrolapi.service.UserService;
 import com.userscontrolsystem.userscontrolapi.util.JwtUtil;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -39,47 +46,106 @@ public class UserController {
 	@Autowired
 	private JwtUtil jwtUtil;
 	
-	
+	@ApiOperation(value = "Endpoint to list all User", response = UserResponse[].class)
+	@ApiResponses(value = {
+	     @ApiResponse(code = 200, message = "Ok"),
+	     @ApiResponse(code = 400, message = "Bad Request"),
+	     @ApiResponse(code = 401, message = "Not authorized"),
+	     @ApiResponse(code = 500, message = "Interval Server Error")
+	})
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "Authorization", value = "", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String.class, example = "Bearer eyJhbGciOiJIUzUxMiJ9.eyWF0IjoxNjM3Nzk1MjU4fQ.2_uzMC2ZbNOf6uWbK8zv")
+	})
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> findAll() {
+	public ResponseEntity<List<UserResponse>> findAll() {
 		return ResponseEntity.ok(userService.findAll().stream()
-														.map(user -> new UserResponse(user.getId(),
-																						user.getName(), 
-																						user.getLogin(), 
-																						user.getCreatedDate(), 
-																						user.getUpdatedDate(), 
-																						user.getEmail(), 
-																						user.getIsAdmin()))
+														.map(user -> userService.convertUserToUserResponse(user))
 														.collect(Collectors.toList()));
 	}
 	
+	@ApiOperation(value = "Endpoint to find a User by your id", response = UserResponse.class)
+	@ApiResponses(value = {
+	     @ApiResponse(code = 200, message = "Ok"),
+	     @ApiResponse(code = 400, message = "Bad Request"),
+	     @ApiResponse(code = 401, message = "Not authorized"),
+	     @ApiResponse(code = 404, message = "The resource not found"),
+	     @ApiResponse(code = 500, message = "Interval Server Error")
+	})
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "Authorization", value = "", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String.class, example = "Bearer eyJhbGciOiJIUzUxMiJ9.eyWF0IjoxNjM3Nzk1MjU4fQ.2_uzMC2ZbNOf6uWbK8zv")
+	})
 	@GetMapping("/{id}")
-	public ResponseEntity<?> findById(@PathVariable Long id) {
-		return ResponseEntity.ok(userService.findById(id));
+	public ResponseEntity<UserResponse> findById(@PathVariable Long id) {
+		User user = userService.findById(id);
+		UserResponse userResponse = userService.convertUserToUserResponse(user);
+		return ResponseEntity.ok(userResponse);
 	}
 	
+	@ApiOperation(value = "Endpoint to add a User.", response = UserResponse.class)
+	@ApiResponses(value = {
+	     @ApiResponse(code = 201, message = "Created"),
+	     @ApiResponse(code = 400, message = "Bad Request"),
+	     @ApiResponse(code = 401, message = "Not authorized"),
+	     @ApiResponse(code = 500, message = "Interval Server Error")
+	})
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "Authorization", value = "", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String.class, example = "Bearer eyJhbGciOiJIUzUxMiJ9.eyWF0IjoxNjM3Nzk1MjU4fQ.2_uzMC2ZbNOf6uWbK8zv")
+	})
 	@PostMapping
-	public ResponseEntity<?> add(@Valid @RequestBody UserAddRequest request) {
+	public ResponseEntity<Void> add(@Valid @RequestBody UserAddRequest request) {
 		User userAdd = userService.prepareSave(request);
 		userService.save(userAdd);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 	
+	@ApiOperation(value = "Endpoint to edit a User by your id", response = UserResponse.class)
+	@ApiResponses(value = {
+	     @ApiResponse(code = 200, message = "Ok"),
+	     @ApiResponse(code = 400, message = "Bad Request"),
+	     @ApiResponse(code = 401, message = "Not authorized"),
+	     @ApiResponse(code = 404, message = "The resource not found"),
+	     @ApiResponse(code = 500, message = "Interval Server Error")
+	})
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "Authorization", value = "", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String.class, example = "Bearer eyJhbGciOiJIUzUxMiJ9.eyWF0IjoxNjM3Nzk1MjU4fQ.2_uzMC2ZbNOf6uWbK8zv")
+	})
 	@PutMapping("/{id}")
-	public ResponseEntity<?> edit(@PathVariable Long id, @Valid @RequestBody UserEditRequest request) {
+	public ResponseEntity<Void> edit(@PathVariable Long id, @Valid @RequestBody UserEditRequest request) {
 		User userEdit = userService.prepareEdit(request, id);
 		userService.save(userEdit);
 		return ResponseEntity.ok().build();
 	}
-
+	
+	@ApiOperation(value = "Delete the User by your id")
+	@ApiResponses(value = {
+	     @ApiResponse(code = 200, message = "Ok"),
+	     @ApiResponse(code = 400, message = "Bad Request"),
+	     @ApiResponse(code = 401, message = "Not authorized"),
+	     @ApiResponse(code = 404, message = "The resource not found"),
+	     @ApiResponse(code = 500, message = "Interval Server Error")
+	})
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "Authorization", value = "", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String.class, example = "Bearer eyJhbGciOiJIUzUxMiJ9.eyWF0IjoxNjM3Nzk1MjU4fQ.2_uzMC2ZbNOf6uWbK8zv")
+	})
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable Long id) {
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		userService.deleteById(userService.findById(id));
 		return ResponseEntity.ok().build();
 	}
 	
+	@ApiOperation(value = "Reset password of the User by your id")
+	@ApiResponses(value = {
+	     @ApiResponse(code = 200, message = "Ok"),
+	     @ApiResponse(code = 400, message = "Bad Request"),
+	     @ApiResponse(code = 401, message = "Not authorized"),
+	     @ApiResponse(code = 404, message = "The resource not found"),
+	     @ApiResponse(code = 500, message = "Interval Server Error")
+	})
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "Authorization", value = "", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String.class, example = "Bearer eyJhbGciOiJIUzUxMiJ9.eyWF0IjoxNjM3Nzk1MjU4fQ.2_uzMC2ZbNOf6uWbK8zv")
+	})
 	@PostMapping("{id}/password/reset")
-	public ResponseEntity<?> resetPassword(@PathVariable Long id, @Valid @RequestBody ResetPasswordRequest request, HttpServletRequest httpRequest) {
+	public ResponseEntity<UserResponse> resetPassword(@PathVariable Long id, @Valid @RequestBody ResetPasswordRequest request, HttpServletRequest httpRequest) {
 		
 		String authorizationHeader = httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
 		
@@ -99,7 +165,19 @@ public class UserController {
 		userFindById.setPassword(userService.encodePassword(request.getNewPassword()));
 		userService.save(userFindById);
 		
-		return ResponseEntity.ok(userFindById);
+		return ResponseEntity.ok(userService.convertUserToUserResponse(userFindById));
+	}
+	
+	@ApiOperation(value = "Endpoint to create a Default Admin User", response = UserResponse.class)
+	@ApiResponses(value = {
+	     @ApiResponse(code = 200, message = "Ok"),
+	     @ApiResponse(code = 404, message = "The resource not found"),
+	     @ApiResponse(code = 500, message = "Interval Server Error")
+	})
+	@PostMapping("/default")
+	public ResponseEntity<UserResponse> createUserDefault() {
+		userService.save(userService.getUserAdminDefault());
+		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 	
 }

@@ -18,6 +18,10 @@ import com.userscontrolsystem.userscontrolapi.model.User;
 import com.userscontrolsystem.userscontrolapi.service.UserService;
 import com.userscontrolsystem.userscontrolapi.util.JwtUtil;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("/authenticate")
 public class AuthenticateController {
@@ -34,6 +38,12 @@ public class AuthenticateController {
 	@Autowired
     private RedisTemplate<String, String> redis;
 	
+	@ApiOperation(value = "Endpoint to login of the User")
+	@ApiResponses(value = {
+	     @ApiResponse(code = 200, message = "Ok"),
+	     @ApiResponse(code = 400, message = "Bad Request"),
+	     @ApiResponse(code = 500, message = "Interval Server Error")
+	})
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody AuthenticateRequest request) {
 		
